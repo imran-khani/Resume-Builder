@@ -6,17 +6,17 @@ import { useForm } from "react-hook-form";
 import { resumeSchema } from "../DataValidation/inputSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PersonalInfo from "../components/resume/PersonalInfo";
+import type { z } from "zod";
+
+type FormData = z.infer<typeof resumeSchema>;
 
 const Resume = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const {
     handleSubmit,
-    register,
     formState: { errors },
-    reset,
-    watch,
     control,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(resumeSchema),
     defaultValues: {
       personalInformation: {
@@ -70,7 +70,7 @@ const Resume = () => {
   const renderContent = () => {
     switch (currentStep) {
       case 0:
-        return <PersonalInfo />;
+        return <PersonalInfo control={control} errors={errors} />;
       case 1:
         return <p>education</p>;
       case 2:
@@ -86,7 +86,9 @@ const Resume = () => {
     }
   };
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
 
   return (
     <div className="flex flex-col space-y-5 items-center justify-center">
@@ -104,7 +106,7 @@ const Resume = () => {
         ))}
       </div>
 
-      <div>
+      <div className="w-full max-w-2xl">
         <ResumeContent>
           <form onSubmit={handleSubmit(onSubmit)}>{renderContent()}</form>
         </ResumeContent>

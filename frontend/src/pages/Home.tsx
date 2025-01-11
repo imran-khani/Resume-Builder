@@ -1,5 +1,6 @@
 import { File, LucideDownload, ScanEye } from "lucide-react";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -12,7 +13,9 @@ const Home = () => {
           Create a resume that stands out. Create a professional resume in
           minutes. Make a great first impression and get the job you want.
         </p>
+        <Link to='/resume'>
         <Button className="bg-black/30 hover:bg-black/50" label="Get Started" size="lg" />
+        </Link>
       </section>
 
       <section className="py-24">

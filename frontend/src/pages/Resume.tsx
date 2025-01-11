@@ -2,10 +2,18 @@ import { useState } from "react";
 import { cn } from "../libs/utils";
 import Button from "../components/Button";
 import ResumeContent from "../components/ResumeContent";
+import {useForm} from 'react-hook-form'
+
 
 const Resume = () => {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const {
+    handleSubmit,
+    register,
+    formState:{errors},
+    reset,
+    watch
+  } = useForm();
   const steps = [
     "Personal Information",
     "Education",
@@ -55,7 +63,7 @@ const Resume = () => {
   const renderContent = () => {
     switch (currentStep) {
       case 0:
-        return <p>Personal info</p>;
+        return <PersonalInfor />;
       case 1:
         return <p>education</p>;
       case 2:
@@ -93,7 +101,7 @@ const Resume = () => {
 
       <div className="flex justify-between w-full ">
         <Button 
-         disabled={currentStep ===0}
+         disabled={currentStep === 0}
          className='disabled:bg-gray-400 disabled:cursor-not-allowed'
         label="Previous" 
         onClick={()=>{

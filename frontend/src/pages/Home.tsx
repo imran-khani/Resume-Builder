@@ -24,7 +24,7 @@ const Home = () => {
           {cardsData.map((card, idx) => (
             <div
               key={idx}
-              className="shadow-md bg-[#333] px-4 py-8 rounded-md flex flex-col items-center"
+              className="shadow-md bg-white/20 px-4 py-8 rounded-md flex flex-col items-center"
             >
               <span className="text-white mb-5">{card.icon}</span>
               <h3 className="text-lg text-white font-bold">{card.title}</h3>

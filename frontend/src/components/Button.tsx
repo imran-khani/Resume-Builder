@@ -13,7 +13,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "bg-indigo-500 text-white rounded transition focus:outline-none focus:ring-2 focus:ring-indigo-300",
+          "bg-white/30 text-[#333] hover:bg-white/50 rounded transition focus:outline-none focus:ring-2 focus:ring-indigo-300",
           size === "sm" && "px-4 py-1 text-sm",
           size === "md" && "px-8 py-2 text-md",
           size === "lg" && "px-12 py-3 text-lg",

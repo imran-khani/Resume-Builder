@@ -12,7 +12,7 @@ const Home = () => {
           Create a resume that stands out. Create a professional resume in
           minutes. Make a great first impression and get the job you want.
         </p>
-        <Button label="Get Started" size="lg" />
+        <Button className="bg-black/30 hover:bg-black/50" label="Get Started" size="lg" />
       </section>
 
       <section className="py-24">

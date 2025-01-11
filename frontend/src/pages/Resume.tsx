@@ -47,24 +47,29 @@ const Resume = () => {
     summary: "",
   };
 
+  const handleNext = () => {
+    if (currentStep === steps.length - 1) return;
+    setCurrentStep((prev) => prev + 1);
+  };
+
   const renderContent = () => {
-     switch(currentStep) {
-      case 0 : 
-       return <p>Personal info</p>;
-      case 1 : 
-      return <p>education</p>
-      case 2 :
-      return <p>experience</p>
-      case 3 :
-      return <p>skills</p>
-      case 4 :
-      return <p>projects</p>
-      case 5 :
-      return <p>summary</p>
+    switch (currentStep) {
+      case 0:
+        return <p>Personal info</p>;
+      case 1:
+        return <p>education</p>;
+      case 2:
+        return <p>experience</p>;
+      case 3:
+        return <p>skills</p>;
+      case 4:
+        return <p>projects</p>;
+      case 5:
+        return <p>summary</p>;
       default:
-      return <p>Nothing to show</p>
+        return <p>Nothing to show</p>;
     }
-  }
+  };
 
   return (
     <div className="flex flex-col space-y-5 items-center justify-center">
@@ -84,6 +89,14 @@ const Resume = () => {
 
       <div>
         <ResumeContent>{renderContent()}</ResumeContent>
+      </div>
+
+      <div className="flex justify-between w-full ">
+        <Button label="Previous" />
+        <Button
+          label={currentStep === steps.length - 1 ? "Submit" : "Next"}
+          onClick={handleNext}
+        />
       </div>
     </div>
   );

@@ -47,6 +47,25 @@ const Resume = () => {
     summary: "",
   };
 
+  const renderContent = () => {
+     switch(currentStep) {
+      case 0 : 
+       return <p>Personal info</p>;
+      case 1 : 
+      return <p>education</p>
+      case 2 :
+      return <p>experience</p>
+      case 3 :
+      return <p>skills</p>
+      case 4 :
+      return <p>projects</p>
+      case 5 :
+      return <p>summary</p>
+      default:
+      return <p>Nothing to show</p>
+    }
+  }
+
   return (
     <div className="flex flex-col space-y-5 items-center justify-center">
       <div className="p-6 flex gap-x-5">
@@ -64,7 +83,7 @@ const Resume = () => {
       </div>
 
       <div>
-        <ResumeContent>hello</ResumeContent>
+        <ResumeContent>{renderContent()}</ResumeContent>
       </div>
     </div>
   );

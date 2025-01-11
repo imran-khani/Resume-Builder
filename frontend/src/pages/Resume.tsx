@@ -92,7 +92,15 @@ const Resume = () => {
       </div>
 
       <div className="flex justify-between w-full ">
-        <Button label="Previous" />
+        <Button 
+         disabled={currentStep ===0}
+         className='disabled:bg-gray-400 disabled:cursor-not-allowed'
+        label="Previous" 
+        onClick={()=>{
+          if (currentStep < 1) return;
+          setCurrentStep((prev)=> prev - 1)
+        }}
+        />
         <Button
           label={currentStep === steps.length - 1 ? "Submit" : "Next"}
           onClick={handleNext}

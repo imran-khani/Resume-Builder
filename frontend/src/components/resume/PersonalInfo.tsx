@@ -1,10 +1,8 @@
 import React from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import Input from "../Input";
-import type { z } from "zod";
-import type { resumeSchema } from "../../DataValidation/inputSchema";
+import { FormData } from "../../types";
 
-type FormData = z.infer<typeof resumeSchema>;
 
 interface IPersonalInfo {
   control: Control<FormData>;
@@ -14,6 +12,7 @@ interface IPersonalInfo {
 const PersonalInfo: React.FC<IPersonalInfo> = ({ control, errors }) => {
   return (
     <div>
+      <h1 className="text-2xl font-bold mb-5">Personal Information</h1>
       {/* Controller is used for each field in the form */}
       <Controller
         name="personalInformation.name"

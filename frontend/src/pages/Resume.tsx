@@ -6,84 +6,74 @@ import { useForm } from "react-hook-form";
 import { resumeSchema } from "../DataValidation/inputSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PersonalInfo from "../components/resume/PersonalInfo";
+import Education from "../components/resume/Education";
 import type { z } from "zod";
 
 type FormData = z.infer<typeof resumeSchema>;
 
+const STEPS = [
+  { id: "personal", label: "Personal Information", Component: PersonalInfo },
+  { id: "education", label: "Education", Component: Education },
+  { id: "experience", label: "Experience", Component: () => <p>experience</p> },
+  { id: "skills", label: "Skills", Component: () => <p>skills</p> },
+  { id: "projects", label: "Projects", Component: () => <p>projects</p> },
+  { id: "summary", label: "Summary", Component: () => <p>summary</p> },
+] as const;
+
+const DEFAULT_VALUES: FormData = {
+  personalInformation: {
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  },
+  education: [
+    {
+      degree: "",
+      school: "",
+      year: "",
+    },
+  ],
+  experience: [
+    {
+      role: "",
+      company: "",
+      year: "",
+    },
+  ],
+  skills: [],
+  projects: [
+    {
+      name: "",
+      description: "",
+      year: "",
+    },
+  ],
+  summary: "",
+};
+
 const Resume = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm<FormData>({
+  
+  const form = useForm<FormData>({
     resolver: zodResolver(resumeSchema),
-    defaultValues: {
-      personalInformation: {
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-      },
-      education: [
-        {
-          degree: "",
-          school: "",
-          year: "",
-        },
-      ],
-      experience: [
-        {
-          role: "",
-          company: "",
-          year: "",
-        },
-      ],
-      skills: [],
-      projects: [
-        {
-          name: "",
-          description: "",
-          year: "",
-        },
-      ],
-      summary: "",
-    },
+    defaultValues: DEFAULT_VALUES,
   });
 
-  const steps = [
-    "Personal Information",
-    "Education",
-    "Experience",
-    "Skills",
-    "Projects",
-    "Summary",
-  ];
+  const { handleSubmit, formState: { errors }, control } = form;
 
-  // const resumeData =
+  const isLastStep = currentStep === STEPS.length - 1;
+  const CurrentStepComponent = STEPS[currentStep].Component;
 
   const handleNext = () => {
-    if (currentStep === steps.length - 1) return;
+    if (isLastStep) return;
+    if (Object.keys(errors).length > 0) return;
     setCurrentStep((prev) => prev + 1);
   };
 
-  const renderContent = () => {
-    switch (currentStep) {
-      case 0:
-        return <PersonalInfo control={control} errors={errors} />;
-      case 1:
-        return <Education />;
-      case 2:
-        return <p>experience</p>;
-      case 3:
-        return <p>skills</p>;
-      case 4:
-        return <p>projects</p>;
-      case 5:
-        return <p>summary</p>;
-      default:
-        return <p>Nothing to show</p>;
-    }
+  const handlePrevious = () => {
+    if (currentStep < 1) return;
+    setCurrentStep((prev) => prev - 1);
   };
 
   const onSubmit = (data: FormData) => {
@@ -93,9 +83,9 @@ const Resume = () => {
   return (
     <div className="flex flex-col space-y-5 items-center justify-center">
       <div className="p-6 flex gap-x-5">
-        {steps.map((_, idx) => (
+        {STEPS.map((step, idx) => (
           <div
-            key={idx}
+            key={step.id}
             className={cn(
               "border-gray-300 bg-indigo-100 items-center justify-center rounded-full h-16 w-16 flex flex-row",
               currentStep === idx && "bg-indigo-600 text-white"
@@ -108,23 +98,23 @@ const Resume = () => {
 
       <div className="w-full max-w-2xl">
         <ResumeContent>
-          <form onSubmit={handleSubmit(onSubmit)}>{renderContent()}</form>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CurrentStepComponent control={control} errors={errors} />
+          </form>
         </ResumeContent>
       </div>
 
-      <div className="flex justify-between w-full ">
+      <div className="flex justify-between w-full">
         <Button
           disabled={currentStep === 0}
           className="disabled:bg-gray-400 disabled:cursor-not-allowed"
           label="Previous"
-          onClick={() => {
-            if (currentStep < 1) return;
-            setCurrentStep((prev) => prev - 1);
-          }}
+          onClick={handlePrevious}
         />
         <Button
-          label={currentStep === steps.length - 1 ? "Submit" : "Next"}
+          label={isLastStep ? "Submit" : "Next"}
           onClick={handleNext}
+          type={isLastStep ? "submit" : "button"}
         />
       </div>
     </div>

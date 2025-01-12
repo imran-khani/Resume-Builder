@@ -72,7 +72,7 @@ const Resume = () => {
       case 0:
         return <PersonalInfo control={control} errors={errors} />;
       case 1:
-        return <p>education</p>;
+        return <Education />;
       case 2:
         return <p>experience</p>;
       case 3:

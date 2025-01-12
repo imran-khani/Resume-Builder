@@ -1,10 +1,14 @@
 import React from "react";
-import { Controller } from "react-hook-form";
-import Input from "../Input"; // Import Input component
+import { Controller, Control, FieldErrors } from "react-hook-form";
+import Input from "../Input";
+import type { z } from "zod";
+import type { resumeSchema } from "../../DataValidation/inputSchema";
+
+type FormData = z.infer<typeof resumeSchema>;
 
 interface IPersonalInfo {
-  control: any; // 'control' comes from useForm() hook
-  errors: any;   // 'errors' from useForm() to show validation messages
+  control: Control<FormData>;
+  errors: FieldErrors<FormData>;
 }
 
 const PersonalInfo: React.FC<IPersonalInfo> = ({ control, errors }) => {

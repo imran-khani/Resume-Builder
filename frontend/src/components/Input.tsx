@@ -10,7 +10,7 @@ interface IP extends React.InputHTMLAttributes<HTMLInputElement> {
   registerOptions?: RegisterOptions;
 }
 
-const Input = React.forwardRef<HTMLInputElement, IP>(
+const Input:React.FC<IP> = 
   ({ label, name, type = "text", error, register, registerOptions, ...props }) => {
     return (
       <div className="flex flex-col mb-4">
@@ -28,7 +28,6 @@ const Input = React.forwardRef<HTMLInputElement, IP>(
       </div>
     );
   }
-);
 
 Input.displayName = "Input";
 export default Input;
